@@ -8,8 +8,8 @@ import (
 func Sqrt(x float64) float64 {
 	z := float64(1)
 	var formerVal float64
-	// The delta means the difference between two numbers. It's mathematical stuff...
-	for delta := 1.; delta > 1e-15; delta = math.Abs(z - formerVal) {
+	// https://en.wikipedia.org/wiki/Absolute_difference
+	for absDiff := 1.; absDiff > 1e-15; absDiff = math.Abs(z - formerVal) {
 		formerVal = z
 		z -= (z*z - x) / (2 * z)
 	}
@@ -17,6 +17,7 @@ func Sqrt(x float64) float64 {
 }
 
 func main() {
-	fmt.Printf("math.Sqrt's result : %g\n", math.Sqrt(2))
-	fmt.Printf("my result : %g\n", Sqrt(2))
+	f := 32.
+	fmt.Printf("math.Sqrt's result : %g\n", math.Sqrt(f))
+	fmt.Printf("my result : %g\n", Sqrt(f))
 }
