@@ -14,7 +14,7 @@ type T struct {
 }
 
 func (t *T) M() {
-	fmt.Println(t)
+	fmt.Println(t.S)
 }
 
 type F float64
