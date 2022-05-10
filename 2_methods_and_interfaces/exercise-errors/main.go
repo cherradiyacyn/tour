@@ -1,24 +1,34 @@
 package main
 
-import "math"
+import (
+	"fmt"
+	"math"
+)
 
 type ErrNegativeSqrt float64
 
 func (e ErrNegativeSqrt) Error() string {
-	return ""
+	return fmt.Sprintf("Sqrt: negative number %g", e)
 }
 
-func Sqrt(x float64) (float64, error) {
-	z := float64(1)
-	var formerVal float64
-	// https://en.wikipedia.org/wiki/Absolute_difference
-	for absDiff := 1.; absDiff > 1e-15; absDiff = math.Abs(z - formerVal) {
-		formerVal = z
-		z -= (z*z - x) / (2 * z)
+const delta = 1e-10
+
+func Sqrt(f float64) (float64, error) {
+	if f < 0 {
+		return 0, ErrNegativeSqrt(f)
+	}
+	z := f
+	for {
+		n := z - (z*z-f)/(2*z)
+		if math.Abs(n-z) < delta {
+			break
+		}
+		z = n
 	}
 	return z, nil
 }
 
 func main() {
-
+	fmt.Println(Sqrt(2))
+	fmt.Println(Sqrt(-2))
 }
